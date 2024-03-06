@@ -8,7 +8,7 @@ const path=require("path")
 //第一參數給絕對路徑 第二個以後給相對
 console.log(path.resolve(__dirname,'./abc/04.txt','./dd'))
 
-/*****取得路徑分隔符 */
+/*****取得路徑分隔符 */ 
 //window \  linux /
 console.log(path.sep)
 

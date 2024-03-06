@@ -47,7 +47,7 @@ res.setHeader('content-type','text/html;charset=utf-8')//設定標頭
 res.setHeader('myHeader','ww')//設定自訂標頭
 res.setHeader('test',['a','b']) //多個同名標頭
 
-res.write('1')
+res.write('1') 
 res.end('你dd好')//設置回應body 並結束response
 })
 

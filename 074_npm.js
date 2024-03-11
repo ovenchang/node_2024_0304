@@ -42,6 +42,15 @@ dependencies": {
     "less": "^4.2.0"
   }
 
+  /*******npm全局安裝 **** */
+  //全局安裝的指令不受工作目錄影響
+  npm i -g nodemon
+
+  可用 npm root -g 查看全局安裝的目錄
+
+  /********修改window執行策略 */
+  如果全局安裝的權限有問題
+  命令行選cmd 不要選powershell
 
 
 

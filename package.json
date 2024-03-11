@@ -7,6 +7,7 @@
   "dependencies": {
     "jquery": "^3.7.1",
     "mime-types": "^2.1.35",
+    "nodemon": "^3.1.0",
     "npm": "^10.5.0"
   },
   "devDependencies": {

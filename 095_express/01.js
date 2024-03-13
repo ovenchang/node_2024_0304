@@ -6,6 +6,7 @@
 //1.導入express
 const express = require('express')
 const { singers } = require("./singers") //載入靜態文件
+const { resetWatchers } = require('nodemon/lib/monitor/watch')
 console.log(singers)
 
 //2.創建應用對象
@@ -30,9 +31,16 @@ app.get('/singer/:id.html', (req, res) => {
     console.log(req.get('connection'))
 
     /**** express 設置response */
-    res.status(404)
+    res.status(200)
     res.set('aaa','bbb') //設置header
     //res.send('你好')
+    //res.redirect("http://www.aa.com")// 跳轉 response
+    //res.download(__dirname+'/singers.json')//下載 response
+    //res.json({name:"12"}) //json response
+    //res.sendFile(__dirname+'/01.html') //response 文件內容
+    return
+
+
 
     /*****獲取路由參數****/
     //url中的參數(數據)
@@ -49,13 +57,13 @@ app.get('/singer/:id.html', (req, res) => {
 
 app.get('/', (req, res) => {
     
-    res.end('首頁')
+    res.send('首頁')
 })
 app.post('/login', (req, res) => {
-    res.end('login')
+    res.send('login')
 })
 app.all('*', (req, res) => {
-    res.end('404')
+    res.send('404')
 })
 
 //4.監聽端口 啟動服務

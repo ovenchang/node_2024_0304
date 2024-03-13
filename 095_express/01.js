@@ -5,12 +5,47 @@
 
 //1.導入express
 const express = require('express')
+const fs = require('fs')
+const { format } = require('date-fns');
 const { singers } = require("./singers") //載入靜態文件
-const { resetWatchers } = require('nodemon/lib/monitor/watch')
-console.log(singers)
 
 //2.創建應用對象
 const app = express()
+
+/***********中間件*********** */
+//中間件 本質是一個callback
+//中間件函數可以像路由一樣訪問req res
+//可以封裝操作 簡化代碼
+//有全局 與 路由 中間件
+//1.全局 只要有請求 就會執行 執行完後 才會去執行路由
+//2.路由 滿足某個路由 對應的中間件 才會執行
+
+//全局中間件 紀錄ip
+//next 指向後續的路由callback 或是後續的中間件callback
+let recordMiddle = (req, res, next) => {
+    let { url, ip } = req
+    fs.appendFileSync(__dirname + '/record.txt', format(new Date(), "yyyy-MM-dd HH:mm:ss") + `-${url}-${ip} \r\n`)
+    //調用next
+    next()
+}
+//使用全局中間件
+app.use(recordMiddle)
+
+//路由中間件 針對/admin /setting的請求 要求url 攜帶code=521參數 如沒攜帶則提示[暗號錯誤]
+var routeMiddle = (req, res, next) => {
+    let code= req.query.code
+    if(code!='521'){
+        res.send('暗號錯誤')
+        return
+    }
+    next()
+}
+//使用路由中間件
+app.get('/admin',routeMiddle, (req, res) => {
+    res.send('admin')
+})
+
+/***************************** */
 
 //3.創建路由
 //確定了應用程序如何response客戶端特定端點的請求
@@ -32,7 +67,7 @@ app.get('/singer/:id.html', (req, res) => {
 
     /**** express 設置response */
     res.status(200)
-    res.set('aaa','bbb') //設置header
+    res.set('aaa', 'bbb') //設置header
     //res.send('你好')
     //res.redirect("http://www.aa.com")// 跳轉 response
     //res.download(__dirname+'/singers.json')//下載 response
@@ -47,16 +82,16 @@ app.get('/singer/:id.html', (req, res) => {
     //req.params 存儲路由所有參數
     let id = req.params.id
     let singer = singers.find((ele) => { return ele.id == Number(id) })
-    if(!singer){
-        res.send('not found') 
+    if (!singer) {
+        res.send('not found')
         return
     }
 
-    res.send('name:' + singer.name) 
+    res.send('name:' + singer.name)
 })
 
 app.get('/', (req, res) => {
-    
+
     res.send('首頁')
 })
 app.post('/login', (req, res) => {
@@ -70,5 +105,11 @@ app.all('*', (req, res) => {
 app.listen(3000, () => {
     console.log('服務啟動 3000 ')
 })
+
+
+
+
+
+
 
 

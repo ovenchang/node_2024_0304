@@ -44,7 +44,7 @@ app.get('/singer/:id.html', (req, res) => {
         return
     }
 
-    res.send('name:' + singer.name)
+    res.send('name:' + singer.name) 
 })
 
 app.get('/', (req, res) => {

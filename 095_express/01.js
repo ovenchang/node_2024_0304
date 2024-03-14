@@ -7,6 +7,7 @@
 const express = require('express')
 const fs = require('fs')
 const { format } = require('date-fns');
+const bodyParser = require('body-parser')
 const { singers } = require("./singers") //載入靜態文件
 
 //2.創建應用對象
@@ -16,9 +17,10 @@ const app = express()
 //中間件 本質是一個callback
 //中間件函數可以像路由一樣訪問req res
 //可以封裝操作 簡化代碼
-//有全局 與 路由 中間件
+//有全局 與 路由 中間件  與 靜態資源目錄 中件間
 //1.全局 只要有請求 就會執行 執行完後 才會去執行路由
 //2.路由 滿足某個路由 對應的中間件 才會執行
+//3.靜態資源目錄 中件間
 
 //全局中間件 紀錄ip
 //next 指向後續的路由callback 或是後續的中間件callback
@@ -33,17 +35,29 @@ app.use(recordMiddle)
 
 //路由中間件 針對/admin /setting的請求 要求url 攜帶code=521參數 如沒攜帶則提示[暗號錯誤]
 var routeMiddle = (req, res, next) => {
-    let code= req.query.code
-    if(code!='521'){
+    let code = req.query.code
+    if (code != '521') {
         res.send('暗號錯誤')
         return
     }
     next()
 }
 //使用路由中間件
-app.get('/admin',routeMiddle, (req, res) => {
+app.get('/admin', routeMiddle, (req, res) => {
     res.send('admin')
 })
+
+//靜態資源 中間件
+//靜態資源目錄(網站根目錄)
+//當瀏覽器把請求發送到server server到哪個目錄去找對應的文件 那個文件夾就叫靜態資源目錄
+//設置 靜態資源目錄
+//__dirname+'/public' 靜態資源文件夾的路徑
+//這文件下的 會自動加mime
+//注意事項
+//1. index.html為默認打開的文件
+//2.靜態資源與路由規則同時匹配，誰先匹配就response
+//3.路由一般response動態資源，靜態資源 中間件response靜態資源
+app.use(express.static(__dirname + '/public')) //express.static()返回函數(中間件函數) 
 
 /***************************** */
 
@@ -53,6 +67,7 @@ app.get('/admin',routeMiddle, (req, res) => {
 //get post all
 
 app.get('/singer/:id.html', (req, res) => {
+
     /*****獲取請求參數****/
     console.log(req.method)
     console.log(req.url)
@@ -72,10 +87,8 @@ app.get('/singer/:id.html', (req, res) => {
     //res.redirect("http://www.aa.com")// 跳轉 response
     //res.download(__dirname+'/singers.json')//下載 response
     //res.json({name:"12"}) //json response
-    //res.sendFile(__dirname+'/01.html') //response 文件內容
+    //res.sendFile(__dirname+'/01.html') //response 取得文件內容
     return
-
-
 
     /*****獲取路由參數****/
     //url中的參數(數據)
@@ -90,13 +103,32 @@ app.get('/singer/:id.html', (req, res) => {
     res.send('name:' + singer.name)
 })
 
+/******express獲取request body  body-parser*** */
+//body-parser也是中間件
+//npm i 
+//設置為路由中間件
+// 建立 application/json 解析器
+const jsonParser = bodyParser.json()
+// 建立 application/x-www-form-urlencoded 解析器
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+//加入中間件 會在req裡加上body屬性
+app.post('/login', urlencodedParser, (req, res) => {
+    console.log('req.body',req.body)
+    res.send(`name:${req.body.username} password:${req.body.password}`)
+})
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/public/login.html')
+})
+/******************************** */
+
+
+
 app.get('/', (req, res) => {
 
     res.send('首頁')
 })
-app.post('/login', (req, res) => {
-    res.send('login')
-})
+
 app.all('*', (req, res) => {
     res.send('404')
 })

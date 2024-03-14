@@ -13,6 +13,23 @@ const { singers } = require("./singers") //載入靜態文件
 //2.創建應用對象
 const app = express()
 
+/*******************防盜鏈 中間件 */
+//防止外部網站盜用網站資源(靜態資源)
+const preventLink=(req,res,next)=>{
+    let referer= req.get('referer')
+    if(referer){
+        let url=new URL(referer)
+        let hostname=url.hostname
+        if(hostname!='localhost'){
+            res.status(404).send('404')
+            return
+        }
+    }
+    next()
+}
+app.use(preventLink)
+/*******************/
+
 /***********中間件*********** */
 //中間件 本質是一個callback
 //中間件函數可以像路由一樣訪問req res
@@ -118,6 +135,10 @@ app.post('/login', urlencodedParser, (req, res) => {
     res.send(`name:${req.body.username} password:${req.body.password}`)
 })
 app.get('/login', (req, res) => {
+    let referer= req.get('referer')
+    let url=new URL(referer)
+    let hosname=url.hostname
+    console.log('hosname',hosname)
     res.sendFile(__dirname + '/public/login.html')
 })
 /******************************** */
@@ -137,8 +158,6 @@ app.all('*', (req, res) => {
 app.listen(3000, () => {
     console.log('服務啟動 3000 ')
 })
-
-
 
 
 

@@ -5,8 +5,6 @@
 
 //1.導入express
 const express = require('express')
-const fs = require('fs')
-const { format } = require('date-fns');
 const bodyParser = require('body-parser')
 const { singers } = require("./singers") //載入靜態文件
 
@@ -39,14 +37,7 @@ app.use(preventLink)
 //2.路由 滿足某個路由 對應的中間件 才會執行
 //3.靜態資源目錄 中件間
 
-//全局中間件 紀錄ip
-//next 指向後續的路由callback 或是後續的中間件callback
-let recordMiddle = (req, res, next) => {
-    let { url, ip } = req
-    fs.appendFileSync(__dirname + '/record.txt', format(new Date(), "yyyy-MM-dd HH:mm:ss") + `-${url}-${ip} \r\n`)
-    //調用next
-    next()
-}
+const recordMiddle=require('./middleware/recordMiddle')
 //使用全局中間件
 app.use(recordMiddle)
 
@@ -119,6 +110,15 @@ app.get('/singer/:id.html', (req, res) => {
 
     res.send('name:' + singer.name)
 })
+
+/*****路由模組化 加上 模組內的路由中間件 */
+//1.建文件夾 routes
+//2.建新文件 homeRouter.js
+//3.導入模組 並設置 
+const homeRouter=require('./routes/homeRouter')
+app.use(homeRouter)
+/*****************/
+
 
 /******express獲取request body  body-parser*** */
 //body-parser也是中間件

@@ -22,6 +22,8 @@ module package 存放目錄
 package.json
 package-lock.json 固定package版本訊息 確保這次安裝與下次安裝版本一致
 
+安裝包時 不一定要在根目錄下  在下層工作目錄安裝 會自動尋找上層的node_module 安裝
+
 /*****require 導入npm 包的流程 */
 1.會找當前入目下modules夾裡的同名文件夾
 require('math')

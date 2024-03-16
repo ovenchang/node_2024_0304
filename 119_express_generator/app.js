@@ -34,7 +34,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index'); 
 var usersRouter = require('./routes/users');
-
+var filesRouter = require('./routes/files');
 var app = express();
 
 // view engine setup
@@ -49,6 +49,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);     //設置路由前綴 indexRoute裡的路由會自動加入 / 這個前綴
 app.use('/users', usersRouter);//設置路由前綴 usersRouter /users 這個前綴
+//上傳文件報文
+app.use('/files',filesRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

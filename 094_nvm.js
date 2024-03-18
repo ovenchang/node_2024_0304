@@ -44,6 +44,9 @@ npm init
 安裝依賴
 npm i
 
+package.json
+node ./bin/www 改成 nodemon ./bin/www
+
 
 /***********設定80port*****/
 sudo apt-get install libcap2-bin

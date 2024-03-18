@@ -33,4 +33,4 @@ sudo setcap cap_net_bind_service=+ep /home/ovenchang/.nvm/versions/node/v21.7.1/
 
 查看node.js的安装路径
 which node
-
+ 

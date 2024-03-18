@@ -27,4 +27,10 @@ source ~/.profile
 5. 驗證是否成功
 nvm --version
 
+/***********設定80port*****/
+sudo apt-get install libcap2-bin
+sudo setcap cap_net_bind_service=+ep /home/ovenchang/.nvm/versions/node/v21.7.1/bin/node
+
+查看node.js的安装路径
+which node
 

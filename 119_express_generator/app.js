@@ -49,8 +49,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);     //設置路由前綴 indexRoute裡的路由會自動加入 / 這個前綴
 app.use('/users', usersRouter);//設置路由前綴 usersRouter /users 這個前綴
+
 //上傳文件報文 用formidable
 app.use('/files',filesRouter)
+
+//記帳本 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

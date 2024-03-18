@@ -1,3 +1,5 @@
+const { init } = require("./119_express_generator/app")
+
 /****nvm */
 node version manager 管理node版本 方便切換不同版本nodejs
 
@@ -10,7 +12,7 @@ nvm install 18.12.1 下載
 nvm uninstall 18.12.1 刪除
 nvm use 18.12.1 切換到這個版本
 
-/*********安裝nvm linux */
+/*********安裝nvm nodejs linux */
 1.更新相依套件
 apt-get update
 apt-get install build-essential libssl-dev
@@ -26,6 +28,22 @@ source ~/.profile
 
 5. 驗證是否成功
 nvm --version
+
+安裝nodejs
+nvm install 8.9.1
+
+安裝express-generator
+npm i -g express-generator
+
+創建專案
+express -e project01
+
+初始化 package
+npm init
+
+安裝依賴
+npm i
+
 
 /***********設定80port*****/
 sudo apt-get install libcap2-bin

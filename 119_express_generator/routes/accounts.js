@@ -16,7 +16,9 @@ const db = low(adapter)
 
 /* 記帳列表頁面 */
 router.get('/', function (req, res, next) {
-  res.render('accounts/list')
+  //獲取所有帳單訊息
+  let accounts=db.get('accounts').value()
+  res.render('accounts/list',{accounts:accounts})
 });
 
 /**添加記帳頁面 */

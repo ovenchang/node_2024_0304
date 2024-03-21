@@ -5,25 +5,19 @@
 //npm init
 //npm i
 
-const mongoose= require('mongoose')
+const mongoose=require("mongoose")
+try {
+  // Connect to the MongoDB cluster
+  mongoose.connect(
+    "mongodb+srv://ovenchang:aSFPmHAwMHpJsvK4@cluster0.0qefrll.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  );
+} catch (e) {
+  console.log("could not connect");
+}
 
-//連接mongodb
-mongoose.connect("mongodb+srv://ovenchang:aSFPmHAwMHpJsvK4@cluster0.0qefrll.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
-//設置callback
-//設置連接成功的callback
-mongoose.connection.on('open',()=>{
-console.log('connect success')
-}) 
-//設置連接錯誤的callback
-mongoose.connection.on('error',()=>{
-  console.log('connect error')
-}) 
-//設置連接關閉的callback
-mongoose.connection.on('close',()=>{
-  console.log('connect close')
-}) 
-
+const dbConnection = mongoose.connection;
+dbConnection.on("error", (err) => console.log(`Connection error ${err}`));
+dbConnection.once("open", () => console.log("Connected to DB!"));
 
 
 

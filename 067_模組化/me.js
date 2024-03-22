@@ -40,7 +40,7 @@ function timeo() {
 }
 
 function koko() {
-    console.log('koko')
+    console.log('koko')g
 } 
 
 /**暴露數據 方法一

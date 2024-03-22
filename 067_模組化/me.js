@@ -41,7 +41,7 @@ function timeo() {
 
 function koko() {
     console.log('koko')
-}
+} 
 
 /**暴露數據 方法一
 module.exports = { //exports 此時是屬性

@@ -4,7 +4,7 @@
 /************創造buffer************** */
 //1.alloc
 
-let buf=Buffer.alloc(10) //創造10byte的buffer 8bit=1byte 會清空舊數據 歸0
+let buf=Buffer.alloc(10) //創造10byte的buffer 8bit=1byte 會清空舊數據 歸0 
 //console.log(buf) //<Buffer 00 00 00 00 00 00 00 00 00 00>
 
 //2. allocUnsafe

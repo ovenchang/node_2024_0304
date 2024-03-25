@@ -36,6 +36,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var filesRouter = require('./routes/files');
 var accountsRouter = require('./routes/accounts');
+var accountsMongoRouter = require('./routes/accountsMongo');
 var app = express();
 
 // view engine setup
@@ -54,8 +55,11 @@ app.use('/users', usersRouter);//設置路由前綴 usersRouter /users 這個前
 //上傳文件報文路由 用formidable
 app.use('/files',filesRouter)
 
-//記帳本 路由
+//記帳本 路由  lowdb
 app.use('/accounts',accountsRouter)
+
+//記帳本 路由  mongodb
+app.use('/accountsMongo',accountsMongoRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
